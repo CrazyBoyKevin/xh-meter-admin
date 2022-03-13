@@ -1,5 +1,3 @@
-[English](./README.md) | 简体中文
-
 <h1 align="center">新华仪表管理端</h1>
 <div align="center">
 Based on  <a href="https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/" target="_blank">Ant Design of Vue</a>

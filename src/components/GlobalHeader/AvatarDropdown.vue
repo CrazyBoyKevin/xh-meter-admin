@@ -58,9 +58,8 @@ export default {
                 title: "确认",
                 content: "确认退出登录？",
                 onOk: () => {
-                    return this.$store.dispatch("Logout").then(() => {
-                        this.$router.push({ name: "login" });
-                    });
+                    localStorage.removeItem("Access-Token");
+                    this.$router.push("/user/login");
                 },
                 onCancel() {},
             });

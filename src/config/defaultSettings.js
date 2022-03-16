@@ -13,9 +13,9 @@
  */
 
 export default {
-    navTheme: 'dark',
+    navTheme: 'light',
     primaryColor: '#1890ff', // '#F5222D', 
-    layout: 'sidemenu',
+    layout: 'topmenu',
     contentWidth: 'Fluid',
     fixedHeader: false,
     fixSiderbar: false,

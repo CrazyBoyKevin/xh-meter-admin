@@ -11,21 +11,27 @@ export const asyncRouterMap = [
         name: 'index',
         component: BasicLayout,
         meta: { title: '首页' },
-        redirect: '/dashboard/workplace',
+        redirect: '/device/quota',
         children: [
             {
-                path: '/dashboard',
-                name: 'dashboard',
-                redirect: '/dashboard/workplace',
+                path: '/device',
+                name: 'device',
+                redirect: '/device/quota',
                 component: RouteView,
-                meta: { title: 'DashBoard', keepAlive: true, icon: "home", roles: ['ADMIN'] },
+                meta: { title: '设备', keepAlive: true, icon: "dashboard", roles: ['ADMIN'] },
                 children: [
                     {
-                        path: '/dashboard/workplace',
-                        name: 'Workplace',
-                        component: () => import('@/views/dashboard/Workplace'),
-                        meta: { title: '工作空间', keepAlive: true }
+                        path: '/device/quota',
+                        name: 'Quota',
+                        component: () => import('@/views/device/quota/index.vue'),
+                        meta: { title: '配额', keepAlive: true }
                     },
+                    {
+                        path: '/device/batch',
+                        name: 'Batch',
+                        component: () => import('@/views/device/batch/index.vue'),
+                        meta: { title: '生产批次', keepAlive: true }
+                    }
                 ]
             },
         ]
@@ -53,21 +59,10 @@ export const constantRouterMap = [
                 name: 'login',
                 component: () => import('@/views/user/Login')
             },
-            {
-                path: 'register',
-                name: 'register',
-                component: () => import('@/views/user/Register')
-            },
-            {
-                path: 'recover',
-                name: 'recover',
-                component: undefined
-            }
         ]
-    },
-
-    {
-        path: '/404',
-        component: () => import('@/views/exception/404')
     }
+    // {
+    //     path: '/404',
+    //     component: () => import('@/views/exception/404')
+    // }
 ]

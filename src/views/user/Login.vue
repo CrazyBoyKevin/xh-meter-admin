@@ -141,8 +141,7 @@ export default {
         },
         loginSuccess(res) {
             console.log(res);
-            this.$router.push({ path: "/dashboard/workplace" });
-            // 延迟 1 秒显示欢迎信息
+            this.$router.push({ path: "/device/quota" });
             setTimeout(() => {
                 this.$notification.success({
                     message: "欢迎",
@@ -170,29 +169,16 @@ export default {
     label {
         font-size: 14px;
     }
-
-    .getCaptcha {
-        display: block;
-        width: 100%;
-        height: 40px;
-    }
-
-    .forge-password {
-        font-size: 14px;
-    }
-
     button.login-button {
         padding: 0 15px;
         font-size: 16px;
         height: 40px;
         width: 100%;
     }
-
     .user-login-other {
         text-align: left;
         margin-top: 24px;
         line-height: 22px;
-
         .item-icon {
             font-size: 24px;
             color: rgba(0, 0, 0, 0.2);
@@ -204,10 +190,6 @@ export default {
             &:hover {
                 color: #1890ff;
             }
-        }
-
-        .register {
-            float: right;
         }
     }
 }

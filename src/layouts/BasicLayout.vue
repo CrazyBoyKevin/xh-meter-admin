@@ -57,13 +57,10 @@ export default {
             // preview.pro.antdv.com only use.
             isProPreviewSite:
                 process.env.VUE_APP_PREVIEW === "true" && process.env.NODE_ENV !== "dev",
-            // end
             isDev:
                 process.env.NODE_ENV === "dev" || process.env.VUE_APP_PREVIEW === "true",
-
             // base
             menus: [],
-            // 侧栏收起状态
             collapsed: false,
             title: defaultSettings.title,
             settings: {
@@ -81,11 +78,9 @@ export default {
                 fixedHeader: defaultSettings.fixedHeader,
                 fixSiderbar: defaultSettings.fixSiderbar,
                 colorWeak: defaultSettings.colorWeak,
-
                 hideHintAlert: false,
                 hideCopyButton: false,
             },
-            // 媒体查询
             query: {},
         };
     },
@@ -113,9 +108,6 @@ export default {
                 }, 16);
             });
         }
-
-        // first update color
-        // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
         if (process.env.NODE_ENV !== "pro" || process.env.VUE_APP_PREVIEW === "true") {
             updateTheme(this.settings.primaryColor);
         }
@@ -174,6 +166,8 @@ export default {
         letter-spacing: 1px;
         font-size: 18px;
         font-weight: 600;
+        font-family: "title-03W04";
+        color: #555;
     }
 }
 </style>

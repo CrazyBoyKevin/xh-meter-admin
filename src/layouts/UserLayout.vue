@@ -1,11 +1,17 @@
 <template>
     <div id="userLayout">
         <div class="container">
-            <div class="header">
-                <span class="title">新华仪表</span>
+            <div class="login-bg">
+                <img src="../assets/login-bg.png" alt="" />
             </div>
-            <router-view />
+            <div class="login-form">
+                <div class="header">
+                    <span class="title">XIN HUA Manager</span>
+                </div>
+                <router-view />
+            </div>
         </div>
+
         <div class="copyright">Copyright &copy; 2022 XinhuaSmart</div>
     </div>
 </template>
@@ -27,31 +33,70 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+
     .container {
-        margin-top: 10%;
-        width: 550px;
-        height: 380px;
+        width: 750px;
+        margin-top: 160px;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-content: flex-start;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        .header {
-            margin: 10% 0 5% 0;
-            height: 44px;
-            line-height: 44px;
-            .title {
-                font-size: 26px;
-                color: rgba(0, 0, 0, 0.85);
-                font-weight: 600;
+        .login-bg {
+            width: 45%;
+            img {
+                width: 100%;
             }
         }
-        .main {
-            min-width: 260px;
-            width: 368px;
-            margin: 0 auto;
+        .login-form {
+            width: 60%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            .header {
+                margin: 20% 0 10% 0;
+                height: 44px;
+                line-height: 44px;
+                .title {
+                    font-size: 26px;
+                    color: rgba(0, 0, 0, 0.35);
+                    font-weight: 600;
+                }
+            }
+            .main {
+                min-width: 260px;
+                width: 368px;
+                margin: 0 auto;
+            }
         }
     }
+
+    // .container {
+    //     margin-top: 10%;
+    //     width: 550px;
+    //     height: 380px;
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     justify-content: flex-start;
+    //     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    //     .header {
+    //         margin: 10% 0 5% 0;
+    //         height: 44px;
+    //         line-height: 44px;
+    //         .title {
+    //             font-size: 26px;
+    //             color: rgba(0, 0, 0, 0.85);
+    //             font-weight: 600;
+    //         }
+    //     }
+    //     .main {
+    //         min-width: 260px;
+    //         width: 368px;
+    //         margin: 0 auto;
+    //     }
+    // }
     .copyright {
         width: 100%;
         text-align: center;

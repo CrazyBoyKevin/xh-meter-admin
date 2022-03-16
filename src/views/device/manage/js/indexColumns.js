@@ -13,6 +13,10 @@ export const COLUMNS = [
         dataIndex: "macAddress",
     },
     {
+        title: '地区',
+        dataIndex: 'region',
+    },
+    {
         title: 'iotId',
         dataIndex: 'iotId',
     },
@@ -22,7 +26,13 @@ export const COLUMNS = [
         scopedSlots: { customRender: 'status' },
     },
     {
-        title: "注册时间",
-        dataIndex: "registerTime",
+        title: "出厂时间",
+        dataIndex: "factoryTime",
+    },
+    {
+        title: '操作',
+        key: 'action',
+        align: "right",
+        scopedSlots: { customRender: 'action' },
     },
 ]

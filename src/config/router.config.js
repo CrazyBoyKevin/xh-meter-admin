@@ -27,6 +27,12 @@ export const asyncRouterMap = [
                         meta: { title: '配额', keepAlive: true }
                     },
                     {
+                        path: '/device/manage',
+                        name: 'Manage',
+                        component: () => import('@/views/device/manage/index.vue'),
+                        meta: { title: '设备管理', keepAlive: true }
+                    },
+                    {
                         path: '/device/batch',
                         name: 'Batch',
                         component: () => import('@/views/device/batch/index.vue'),

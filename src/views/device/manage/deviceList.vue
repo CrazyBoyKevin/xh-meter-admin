@@ -1,7 +1,7 @@
 <template>
-    <a-card class="registered" :bordered="false" title="注册成功设备">
+    <a-card class="registered" :bordered="false">
         <div slot="extra" class="card-header-right">
-            <a-button class="reload-btn" @click="reloadRegisteredList()" icon="reload"
+            <a-button class="reload-btn" @click="reloadList()" icon="reload"
                 >重置</a-button
             >
             <a-input-search
@@ -11,13 +11,6 @@
                 v-model="searchMacAddress"
                 @search="onSearchByMacAddress()"
             />
-            <a-button
-                type="primary"
-                class="checkout-btn"
-                @click="deviceFactory()"
-                icon="export"
-                >出厂</a-button
-            >
         </div>
 
         <a-table
@@ -27,10 +20,6 @@
             :pagination="pagination"
             :loading="loading"
             @change="handleTableChange"
-            :row-selection="{
-                selectedRowKeys: selectedRowKeys,
-                onChange: onSelectChange,
-            }"
         >
             <span slot="status" slot-scope="status">
                 <!-- ONLINE：设备在线,OFFLINE：设备离线,UNACTIVE：设备未激活,DISABLE：设备已禁用 -->
@@ -38,8 +27,11 @@
                 <a-tag v-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
                 <a-tag v-if="status == 'UNACTIVE'" color="#FFA500">未激活</a-tag>
                 <a-tag v-if="status == 'DISABLE'" color="#f50">设备已禁用</a-tag>
-            </span></a-table
-        >
+            </span>
+            <span slot="action" slot-scope="text, record">
+                <a-button size="small" style="font-size:10px" @click="returnFactory(record)">返厂</a-button>
+            </span>
+        </a-table>
     </a-card>
 </template>
 
@@ -47,7 +39,7 @@
 import { COLUMNS } from "./js/indexColumns";
 import { GET, POST } from "@/utils/methods";
 export default {
-    name: "RegisteredDeviceList",
+    name: "DeviceList",
     data() {
         return {
             columns: COLUMNS,
@@ -58,38 +50,21 @@ export default {
                 pageSize: 10,
                 current: 1,
             },
-            timer: null,
-            isTimer: true,
-            selectedRowKeys: [],
         };
     },
-    computed: {
-        hasSelected() {
-            return this.selectedRowKeys.length > 0;
-        },
-    },
     mounted() {
-        this.getNotShippedDeviceList();
-        this.timer = setInterval(() => {
-            if (this.isTimer) {
-                setTimeout(this.getNotShippedDeviceList(), 1000);
-            }
-        }, 5000);
-    },
-    beforeDestroy() {
-        clearInterval(this.timer);
-        this.timer = null;
+        this.getShippedDeviceList();
     },
     methods: {
-        deviceFactory() {
+        returnFactory(record) {
             const params = {
-                deviceIds: this.selectedRowKeys,
-            };
-            POST("/device/factory", params).then((res) => {
+                id: record.id
+            }
+            POST("/device/factory/return", params).then(res => {
                 if (res.code == 200) {
-                    this.getNotShippedDeviceList();
+                    this.getShippedDeviceList();
                     this.$notification["success"]({
-                        message: "出厂成功",
+                        message: "返厂成功",
                     });
                 } else {
                     this.$notification["error"]({
@@ -97,30 +72,25 @@ export default {
                         description: res.msg,
                     });
                 }
-            });
+            })
         },
-        onSelectChange(selectedRowKeys) {
-            console.log("selectedRowKeys changed: ", selectedRowKeys);
-            this.selectedRowKeys = selectedRowKeys;
-        },
-        reloadRegisteredList() {
+        reloadList() {
             this.searchMacAddress = null;
-            this.getNotShippedDeviceList();
-            this.isTimer = true;
+            this.getShippedDeviceList();
         },
         handleTableChange(pagination) {
             const pager = { ...this.pagination };
             pager.current = pagination.current;
             this.pagination = pager;
-            this.getNotShippedDeviceList();
+            this.getShippedDeviceList();
         },
-        getNotShippedDeviceList() {
+        getShippedDeviceList() {
             this.loading = true;
             const params = {
                 currentPage: this.pagination.current,
                 pageSize: this.pagination.pageSize,
             };
-            GET("/device/list/not/shipped", params).then((res) => {
+            GET("/device/list/shipped", params).then((res) => {
                 if (res.code == 200) {
                     this.data = res.data;
                     this.pagination.total = res.total;

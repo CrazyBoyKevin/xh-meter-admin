@@ -43,12 +43,32 @@ export default {
         return {
             columns: COLUMNS,
             data: [],
+            timer: null,
         };
     },
     mounted() {
         this.getRepeatDeviceList();
+        this.timer = setInterval(() => {
+            setTimeout(this.getRepeatDeviceList(), 1000);
+        }, 1000 * 10);
+    },
+    beforeDestroy() {
+        clearInterval(this.timer);
+        this.timer = null;
     },
     methods: {
+        getRepeatDeviceList() {
+            GET("/device/repeat/register").then((res) => {
+                if (res.code == 200) {
+                    this.data = res.data;
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+            });
+        },
         giveUpRegisterRepeat(record) {
             const params = {
                 macAddress: record.mac_address,
@@ -87,19 +107,12 @@ export default {
                 }
             });
         },
-        getRepeatDeviceList() {
-            GET("/device/repeat/register").then((res) => {
-                if (res.code == 200) {
-                    this.data = res.data;
-                }
-            });
-        },
     },
 };
 </script>
 
 <style lang="less" scoped>
-.repeat {
-    height: 80vh;
+/deep/ .ant-table-tbody > tr > td {
+    padding: 10px;
 }
 </style>

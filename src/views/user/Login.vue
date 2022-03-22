@@ -124,7 +124,11 @@ export default {
                     // loginParams.password = md5(values.password);
                     Login(loginParams)
                         .then((res) => {
-                            this.loginSuccess(res);
+                            if (res.code == 200) {
+                                this.loginSuccess(res);
+                            } else {
+                                this.requestFailed(res);
+                            }
                         })
                         .catch((err) => {
                             this.requestFailed(err);
@@ -154,10 +158,8 @@ export default {
             this.isLoginError = true;
             this.$notification["error"]({
                 message: "错误",
-                description:
-                    ((err.response || {}).data || {}).message ||
-                    "请求出现错误，请稍后再试",
-                duration: 4,
+                description: err.msg,
+                duration: 3,
             });
         },
     },

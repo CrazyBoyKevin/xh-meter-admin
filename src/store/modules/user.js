@@ -36,10 +36,12 @@ const user = {
         Login({ commit }, userInfo) {
             return new Promise(resolve => {
                 POST("/auth/login?username=" + userInfo.username + "&password=" + userInfo.password, null).then(res => {
-                    const result = res.data
-                    storage.set(ACCESS_TOKEN, result.AuthToken, 7 * 24 * 60 * 60 * 1000)
-                    commit('SET_TOKEN', result.AuthToken)
-                    resolve()
+                    if (res.code == 200) {
+                        const result = res.data
+                        storage.set(ACCESS_TOKEN, result.AuthToken, 7 * 24 * 60 * 60 * 1000)
+                        commit('SET_TOKEN', result.AuthToken)
+                    }
+                    resolve(res)
                 })
             })
         },

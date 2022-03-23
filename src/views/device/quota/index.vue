@@ -24,15 +24,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.device-quota {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    .registered-device-list {
-        width: 64%;
-    }
-    .repeat-device-list {
-        width: 34%;
-    }
+.repeat-device-list {
+    margin-bottom: 15px;
 }
 </style>

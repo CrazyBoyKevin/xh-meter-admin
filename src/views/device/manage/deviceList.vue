@@ -6,7 +6,7 @@
             >
             <a-input-search
                 href="#"
-                placeholder="通过MAC地址查询"
+                placeholder="MAC地址查询（无:）"
                 enter-button
                 v-model="searchMacAddress"
                 @search="onSearchByMacAddress()"
@@ -29,7 +29,13 @@
                 <a-tag v-if="status == 'DISABLE'" color="#f50">设备已禁用</a-tag>
             </span>
             <span slot="action" slot-scope="text, record">
-                <a-button size="small" style="font-size:10px" @click="returnFactory(record)">返厂</a-button>
+                <a-button
+                    size="small"
+                    type="warning"
+                    style="font-size: 10px"
+                    @click="returnFactory(record)"
+                    >返厂</a-button
+                >
             </span>
         </a-table>
     </a-card>
@@ -49,6 +55,11 @@ export default {
             pagination: {
                 pageSize: 10,
                 current: 1,
+                total: 0,
+                showTotal: (total) => `总共 ${total} 个设备`,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "50", "100"],
+                onShowSizeChange: (current, pageSize) => (this.pageSize = pageSize),
             },
         };
     },
@@ -56,11 +67,17 @@ export default {
         this.getShippedDeviceList();
     },
     methods: {
+        handleTableChange(pagination) {
+            const pager = { ...this.pagination };
+            pager.current = pagination.current;
+            this.pagination = pager;
+            this.getShippedDeviceList();
+        },
         returnFactory(record) {
             const params = {
-                id: record.id
-            }
-            POST("/device/factory/return", params).then(res => {
+                id: record.id,
+            };
+            POST("/device/factory/return", params).then((res) => {
                 if (res.code == 200) {
                     this.getShippedDeviceList();
                     this.$notification["success"]({
@@ -72,7 +89,7 @@ export default {
                         description: res.msg,
                     });
                 }
-            })
+            });
         },
         reloadList() {
             this.searchMacAddress = null;

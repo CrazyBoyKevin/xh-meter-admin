@@ -8,7 +8,7 @@
 import DeviceList from "./deviceList";
 
 export default {
-    name: "Quota",
+    name: "Manage",
     components: {
         DeviceList: DeviceList,
     },

@@ -40,6 +40,12 @@ export const asyncRouterMap = [
                     }
                 ]
             },
+            {
+                path: '/product',
+                name: 'product',
+                component: () => import('@/views/product/index.vue'),
+                meta: { title: '产品', keepAlive: true, icon: "gold", roles: ['ADMIN'] },
+            },
         ]
     },
     {

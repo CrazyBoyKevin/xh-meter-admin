@@ -1,6 +1,6 @@
 <template>
     <a-card class="repeat" :bordered="false" title="设备MAC地址重复列表">
-        <a-table :columns="columns" rowKey="timestamp" :data-source="data">
+        <a-table :columns="columns" rowKey="timestamp" :data-source="data" bordered>
             <span slot="action" slot-scope="text, record">
                 <a-popconfirm
                     :title="
@@ -38,7 +38,7 @@
 import { COLUMNS } from "./js/repeatColumns";
 import { GET, POST } from "@/utils/methods";
 export default {
-    name: "Quota",
+    name: "RepeatDeviceList",
     data() {
         return {
             columns: COLUMNS,

@@ -1,19 +1,21 @@
 <template>
-    <div>
-        <BatchList></BatchList>
+    <div class="product">
+        <ProductList></ProductList>
     </div>
 </template>
 
 <script>
-import BatchList from "./batchList.vue";
+import ProductList from "./productList";
+
 export default {
-    name: "Batch",
+    name: "Product",
     components: {
-        BatchList: BatchList,
+        ProductList: ProductList,
     },
     data() {
         return {};
     },
+    mounted() {},
     methods: {},
 };
 </script>

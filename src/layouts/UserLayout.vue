@@ -36,7 +36,7 @@ export default {
 
     .container {
         width: 750px;
-        margin-top: 160px;
+        margin-top: 8%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -71,32 +71,6 @@ export default {
             }
         }
     }
-
-    // .container {
-    //     margin-top: 10%;
-    //     width: 550px;
-    //     height: 380px;
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-    //     justify-content: flex-start;
-    //     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    //     .header {
-    //         margin: 10% 0 5% 0;
-    //         height: 44px;
-    //         line-height: 44px;
-    //         .title {
-    //             font-size: 26px;
-    //             color: rgba(0, 0, 0, 0.85);
-    //             font-weight: 600;
-    //         }
-    //     }
-    //     .main {
-    //         min-width: 260px;
-    //         width: 368px;
-    //         margin: 0 auto;
-    //     }
-    // }
     .copyright {
         width: 100%;
         text-align: center;

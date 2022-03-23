@@ -21,6 +21,7 @@
         </div>
 
         <a-table
+            bordered
             :columns="columns"
             rowKey="id"
             :data-source="data"

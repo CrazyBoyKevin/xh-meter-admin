@@ -1,16 +1,17 @@
 <template>
-    <a-card class="registered" :bordered="false">
+    <a-card class="registered" :bordered="false" title="设备列表">
         <div slot="extra" class="card-header-right">
-            <a-button class="reload-btn" @click="reloadList()" icon="reload"
-                >重置</a-button
-            >
-            <a-input-search
-                href="#"
-                placeholder="MAC地址查询（无:）"
-                enter-button
-                v-model="searchMacAddress"
-                @search="onSearchByMacAddress()"
-            />
+            <a-space>
+                <a-button @click="reloadList()" icon="reload">重置</a-button>
+                <a-input-search
+                    href="#"
+                    placeholder="MAC地址查询（无:）"
+                    enter-button
+                    v-model="searchMacAddress"
+                    @search="onSearchByMacAddress()"
+                />
+                <BackButton></BackButton>
+            </a-space>
         </div>
 
         <a-table
@@ -25,17 +26,10 @@
                 <!-- ONLINE：设备在线,OFFLINE：设备离线,UNACTIVE：设备未激活,DISABLE：设备已禁用 -->
                 <a-tag v-if="status == 'ONLINE'" color="#87d068">在线</a-tag>
                 <a-tag v-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
-                <a-tag v-if="status == 'UNACTIVE'" color="#FFA500">未激活</a-tag>
-                <a-tag v-if="status == 'DISABLE'" color="#f50">设备已禁用</a-tag>
+                <a-tag v-else color="#f50">未知</a-tag>
             </span>
             <span slot="action" slot-scope="text, record">
-                <a-button
-                    size="small"
-                    type="warning"
-                    style="font-size: 10px"
-                    @click="returnFactory(record)"
-                    >返厂</a-button
-                >
+                <a-button danger @click="returnFactory(record)">返厂</a-button>
             </span>
         </a-table>
     </a-card>
@@ -44,8 +38,15 @@
 <script>
 import { COLUMNS } from "./js/indexColumns";
 import { GET, POST } from "@/utils/methods";
+import BackButton from "@/components/backButton/backButton.vue";
 export default {
     name: "DeviceList",
+    components: {
+        BackButton: BackButton,
+    },
+    props: {
+        batchId: null,
+    },
     data() {
         return {
             columns: COLUMNS,
@@ -64,14 +65,14 @@ export default {
         };
     },
     mounted() {
-        this.getShippedDeviceList();
+        this.getDeviceListByBatchId();
     },
     methods: {
         handleTableChange(pagination) {
             const pager = { ...this.pagination };
             pager.current = pagination.current;
             this.pagination = pager;
-            this.getShippedDeviceList();
+            this.getDeviceListByBatchId();
         },
         returnFactory(record) {
             const params = {
@@ -79,7 +80,7 @@ export default {
             };
             POST("/device/factory/return", params).then((res) => {
                 if (res.code == 200) {
-                    this.getShippedDeviceList();
+                    this.getDeviceListByBatchId();
                     this.$notification["success"]({
                         message: "返厂成功",
                     });
@@ -93,21 +94,22 @@ export default {
         },
         reloadList() {
             this.searchMacAddress = null;
-            this.getShippedDeviceList();
+            this.getDeviceListByBatchId();
         },
         handleTableChange(pagination) {
             const pager = { ...this.pagination };
             pager.current = pagination.current;
             this.pagination = pager;
-            this.getShippedDeviceList();
+            this.getDeviceListByBatchId();
         },
-        getShippedDeviceList() {
+        getDeviceListByBatchId() {
             this.loading = true;
             const params = {
                 currentPage: this.pagination.current,
                 pageSize: this.pagination.pageSize,
+                batchId: this.batchId,
             };
-            GET("/device/list/shipped", params).then((res) => {
+            GET("/device/list/batch", params).then((res) => {
                 if (res.code == 200) {
                     this.data = res.data;
                     this.pagination.total = res.total;
@@ -151,9 +153,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    .reload-btn {
-        margin-right: 10px;
-    }
     .checkout-btn {
         margin-left: 10px;
     }

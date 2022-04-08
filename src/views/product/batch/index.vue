@@ -1,6 +1,6 @@
 <template>
     <div>
-        <BatchList></BatchList>
+        <BatchList :productId="productId"></BatchList>
     </div>
 </template>
 
@@ -12,7 +12,12 @@ export default {
         BatchList: BatchList,
     },
     data() {
-        return {};
+        return {
+            productId: null,
+        };
+    },
+    created() {
+        this.productId = this.$route.query.productId;
     },
     methods: {},
 };

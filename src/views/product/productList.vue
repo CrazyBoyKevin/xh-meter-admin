@@ -1,5 +1,5 @@
 <template>
-    <a-card class="product-list" :bordered="false">
+    <a-card class="product-list" :bordered="false" title="产品列表">
         <a-table
             :columns="columns"
             rowKey="id"
@@ -9,6 +9,11 @@
             :pagination="pagination"
             @change="handleTableChange"
         >
+            <span slot="action" slot-scope="text, record">
+                <a-button @click="toProductBatch(record)" type="primary"
+                    >查看批次</a-button
+                >
+            </span>
         </a-table>
     </a-card>
 </template>
@@ -39,6 +44,9 @@ export default {
         this.getProductList();
     },
     methods: {
+        toProductBatch(obj) {
+            this.$router.push("/batch?productId=" + obj.id);
+        },
         handleTableChange(pagination) {
             const pager = { ...this.pagination };
             pager.current = pagination.current;

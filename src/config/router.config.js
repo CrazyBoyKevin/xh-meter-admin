@@ -11,41 +11,53 @@ export const asyncRouterMap = [
         name: 'index',
         component: BasicLayout,
         meta: { title: '首页' },
-        redirect: '/device/quota',
+        redirect: '/device/register',
         children: [
             {
-                path: '/device',
-                name: 'device',
-                redirect: '/device/quota',
-                component: RouteView,
-                meta: { title: '设备', keepAlive: true, icon: "dashboard", roles: ['ADMIN'] },
-                children: [
-                    {
-                        path: '/device/quota',
-                        name: 'Quota',
-                        component: () => import('@/views/device/quota/index.vue'),
-                        meta: { title: '配额', keepAlive: true }
-                    },
-                    {
-                        path: '/device/manage',
-                        name: 'Manage',
-                        component: () => import('@/views/device/manage/index.vue'),
-                        meta: { title: '设备管理', keepAlive: true }
-                    },
-                    {
-                        path: '/device/batch',
-                        name: 'Batch',
-                        component: () => import('@/views/device/batch/index.vue'),
-                        meta: { title: '生产批次', keepAlive: true }
-                    }
-                ]
+                path: '/device/register',
+                name: 'deviceRegister',
+                component: () => import('@/views/register/index.vue'),
+                meta: { title: '设备注册', keepAlive: true, icon: "dashboard", roles: ['ADMIN'] }
             },
             {
                 path: '/product',
                 name: 'product',
                 component: () => import('@/views/product/index.vue'),
-                meta: { title: '产品', keepAlive: true, icon: "gold", roles: ['ADMIN'] },
+                meta: { title: '产品', keepAlive: true, icon: "gold", roles: ['ADMIN'] }
             },
+            // {
+            //     path: '/device',
+            //     name: 'Device',
+            //     redirect: '/device/quota',
+            //     component: RouteView,
+            //     meta: { title: '设备', keepAlive: true, icon: "dashboard", roles: ['ADMIN'] },
+            //     children: [
+            //         {
+            //             path: '/device/quota',
+            //             name: 'Quota',
+            //             component: () => import('@/views/device/quota/index.vue'),
+            //             meta: { title: '配额', keepAlive: true }
+            //         },
+            //     ]
+            // },
+        ],
+    },
+    {
+        path: '/product',
+        name: 'product',
+        component: BasicLayout,
+        meta: { keepAlive: true, roles: ['ADMIN'] },
+        children: [
+            {
+                path: '/batch',
+                name: 'batch',
+                component: () => import('@/views/product/batch/index.vue'),
+            },
+            {
+                path: '/batch/device',
+                name: 'batchDevice',
+                component: () => import('@/views/product/device/index.vue'),
+            }
         ]
     },
     {

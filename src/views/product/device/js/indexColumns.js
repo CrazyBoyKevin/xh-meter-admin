@@ -5,20 +5,20 @@ export const COLUMNS = [
         width: "80px"
     },
     {
-        title: "设备名",
-        dataIndex: "deviceName",
+        title: "用户名",
+        dataIndex: "username",
+    },
+    {
+        title: "型号",
+        dataIndex: "type",
+    },
+    {
+        title: "域名",
+        dataIndex: "domain",
     },
     {
         title: "MAC地址",
         dataIndex: "macAddress",
-    },
-    {
-        title: '地区',
-        dataIndex: 'region',
-    },
-    {
-        title: 'iotId',
-        dataIndex: 'iotId',
     },
     {
         title: "状态",

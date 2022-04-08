@@ -80,34 +80,37 @@
             </a-modal>
         </template>
         <!-- 批次列表 -->
-        <a-card :bordered="false">
-            <a-space style="margin-bottom: 10px">
-                <a-button type="primary" icon="plus" @click="handleAdd()"
-                    >新增批次</a-button
-                >
-                <a-select
-                    style="width: 160px"
-                    @change="handleChangeProduct"
-                    placeholder="请选择产品"
-                >
-                    <a-select-option
-                        v-for="item in productList"
-                        :key="item.id"
-                        :value="item.id"
+        <a-card :bordered="false" title="产品批次">
+            <template #extra>
+                <a-space>
+                    <a-button type="primary" icon="plus" @click="handleAdd()"
+                        >新增批次</a-button
                     >
-                        {{ item.productName }}
-                    </a-select-option>
-                </a-select>
-                <a-input-search
-                    placeholder="批次号搜索"
-                    enter-button
-                    v-model="searchBatchNo"
-                    @search="getProductBatchList"
-                />
-                <a-button class="reload-btn" @click="handleReset()" icon="reload"
-                    >重置</a-button
-                >
-            </a-space>
+                    <a-select
+                        style="width: 160px"
+                        @change="handleChangeProduct"
+                        placeholder="请选择产品"
+                    >
+                        <a-select-option
+                            v-for="item in productList"
+                            :key="item.id"
+                            :value="item.id"
+                        >
+                            {{ item.productName }}
+                        </a-select-option>
+                    </a-select>
+                    <a-input-search
+                        placeholder="批次号搜索"
+                        enter-button
+                        v-model="searchBatchNo"
+                        @search="getProductBatchList"
+                    />
+                    <a-button class="reload-btn" @click="handleReset()" icon="reload"
+                        >重置</a-button
+                    >
+                    <BackButton></BackButton>
+                </a-space>
+            </template>
             <a-table
                 bordered
                 :columns="columns"
@@ -115,11 +118,29 @@
                 :data-source="data"
                 :pagination="pagination"
             >
-                <span slot="status" slot-scope="status">
-                    <a-tag v-if="status == 1" color="#87d068">生产中</a-tag>
-                    <a-tag v-if="status == 2" color="#999999">停产</a-tag>
+                <span slot="status" slot-scope="text, record">
+                    <a-tag
+                        v-if="record.status == 1"
+                        @click="toDeviceList(record)"
+                        color="#87d068"
+                        >生产中</a-tag
+                    >
+                    <a-tag
+                        v-if="record.status == 2"
+                        @click="toDeviceList(record)"
+                        color="#999999"
+                        >停产</a-tag
+                    >
                 </span>
                 <span slot="action" slot-scope="text, record">
+                    <a-button
+                        style="margin-right: 10px"
+                        type="primary"
+                        v-if="record.status == 1"
+                        @click="handleAddQuota(record)"
+                        >修改配额
+                    </a-button>
+
                     <a-popconfirm
                         :title="
                             `确定将产品[` +
@@ -133,13 +154,10 @@
                         @confirm="stopProduceBatchConfirm(record)"
                         @cancel="stopProduceBatchCancel()"
                     >
-                        <a v-if="record.status == 1" href="#">停产</a>
+                        <a-button type="primary" v-if="record.status == 1" href="#"
+                            >停产</a-button
+                        >
                     </a-popconfirm>
-
-                    <a-divider type="vertical" />
-                    <a v-if="record.status == 1" @click="handleAddQuota(record)"
-                        >修改配额
-                    </a>
                 </span>
             </a-table>
         </a-card>
@@ -149,8 +167,15 @@
 <script>
 import { COLUMNS } from "./columns";
 import { GET, POST } from "@/utils/methods";
+import BackButton from "@/components/backButton/backButton.vue";
 export default {
     name: "BatchList",
+    components: {
+        BackButton: BackButton,
+    },
+    props: {
+        productId: null,
+    },
     data() {
         return {
             columns: COLUMNS,
@@ -174,10 +199,14 @@ export default {
         };
     },
     created() {
+        this.selectedProductId = this.productId;
         this.getProductBatchList();
         this.getProductList();
     },
     methods: {
+        toDeviceList(obj) {
+            this.$router.push("/batch/device?batchId=" + obj.id);
+        },
         handleReset() {
             this.selectedProductId = null;
             this.searchBatchNo = null;

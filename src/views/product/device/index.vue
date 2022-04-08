@@ -1,6 +1,6 @@
 <template>
     <div class="device-manage">
-        <DeviceList></DeviceList>
+        <DeviceList :batchId="batchId"></DeviceList>
     </div>
 </template>
 
@@ -13,7 +13,12 @@ export default {
         DeviceList: DeviceList,
     },
     data() {
-        return {};
+        return {
+            batchId: null
+        };
+    },
+    created(){
+        this.batchId = this.$route.query.batchId;
     },
     mounted() {},
     methods: {},

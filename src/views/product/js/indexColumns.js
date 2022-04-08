@@ -9,8 +9,8 @@ export const COLUMNS = [
         dataIndex: "productName",
     },
     {
-        title: "产品KEY",
-        dataIndex: "productKey",
+        title: "产品型号",
+        dataIndex: "type",
     },
     {
         title: '设备数量',
@@ -18,7 +18,13 @@ export const COLUMNS = [
     },
     {
         title: "添加时间",
-        dataIndex: "gmtCreate",
+        dataIndex: "createTime",
         width: "180px"
+    },
+    {
+        title: "操作",
+        key: 'action',
+        align: "right",
+        scopedSlots: { customRender: 'action' },
     },
 ]

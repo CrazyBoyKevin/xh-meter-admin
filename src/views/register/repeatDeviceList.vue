@@ -20,7 +20,7 @@
                 <a-popconfirm
                     :title="
                         `确定注册MAC地址为` +
-                        record.mac_address +
+                        record.macAddress +
                         `的设备？此操作将删除之前注册设备的所有数据`
                     "
                     ok-text="确定"
@@ -71,8 +71,7 @@ export default {
         },
         giveUpRegisterRepeat(record) {
             const params = {
-                macAddress: record.mac_address,
-                timestamp: record.timestamp,
+                macAddress: record.macAddress,
             };
             POST("/device/repeat/register/give/up", params).then((res) => {
                 if (res.code == 200) {
@@ -90,7 +89,7 @@ export default {
         },
         confirmRegisterRepeat(record) {
             const params = {
-                macAddress: record.mac_address,
+                macAddress: record.macAddress,
                 timestamp: record.timestamp,
             };
             POST("/device/repeat/register/confirm", params).then((res) => {

@@ -14,6 +14,10 @@ export const COLUMNS = [
         dataIndex: "product.productName",
     },
     {
+        title: "产品型号",
+        dataIndex: "product.type",
+    },
+    {
         title: '生产状态',
         dataIndex: 'status',
         width: "120px",

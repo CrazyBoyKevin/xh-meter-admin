@@ -33,14 +33,14 @@
                 onChange: onSelectChange,
             }"
         >
-            <span slot="status" slot-scope="status">
+            <!-- <span slot="status" slot-scope="status"> -->
                 <!-- ONLINE：设备在线,OFFLINE：设备离线,UNACTIVE：设备未激活,DISABLE：设备已禁用 -->
-                <a-tag v-if="status == 'ONLINE'" color="#87d068">在线</a-tag>
+                <!-- <a-tag v-if="status == 'ONLINE'" color="#87d068">在线</a-tag>
                 <a-tag v-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
                 <a-tag v-if="status == 'UNACTIVE'" color="#FFA500">未激活</a-tag>
                 <a-tag v-if="status == 'DISABLE'" color="#f50">设备已禁用</a-tag>
-            </span></a-table
-        >
+            </span> -->
+        </a-table>
     </a-card>
 </template>
 

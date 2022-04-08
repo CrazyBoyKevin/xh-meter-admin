@@ -1,11 +1,11 @@
 export const COLUMNS = [
     {
         title: "MAC地址",
-        dataIndex: "mac_address",
+        dataIndex: "macAddress",
     },
     {
         title: "重复时间",
-        dataIndex: "datetime",
+        dataIndex: "timestamp",
     },
     {
         title: '操作',

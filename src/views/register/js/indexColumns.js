@@ -5,24 +5,17 @@ export const COLUMNS = [
         width: "80px",
     },
     {
-        title: "设备名",
-        dataIndex: "deviceName",
-    },
-    {
         title: "MAC地址",
         dataIndex: "macAddress",
         width: "140px",
     },
     {
-        title: 'iotId',
-        dataIndex: 'iotId',
-        width: "260px",
+        title: '设备名',
+        dataIndex: 'username',
     },
     {
-        title: "状态",
-        dataIndex: "status",
-        width: "110px",
-        scopedSlots: { customRender: 'status' },
+        title: '域名',
+        dataIndex: 'domain',
     },
     {
         title: "注册时间",

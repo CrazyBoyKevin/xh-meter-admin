@@ -9,7 +9,7 @@ const user = {
         name: '',
         welcome: '',
         avatar: '',
-        roles: [],
+        roles: '',
         info: {}
     },
 
@@ -38,8 +38,11 @@ const user = {
                 POST("/auth/login?username=" + userInfo.username + "&password=" + userInfo.password, null).then(res => {
                     if (res.code == 200) {
                         const result = res.data
-                        storage.set(ACCESS_TOKEN, result.AuthToken, 7 * 24 * 60 * 60 * 1000)
-                        commit('SET_TOKEN', result.AuthToken)
+                        storage.set(ACCESS_TOKEN, result.accessToken, 7 * 24 * 60 * 60 * 1000)
+                        commit('SET_TOKEN', result.accessToken)
+                        // let roles = []
+                        // roles.push(result.role)
+                        // commit('SET_TOKEN', result.accessToken)
                     }
                     resolve(res)
                 })

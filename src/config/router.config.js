@@ -25,6 +25,12 @@ export const asyncRouterMap = [
                 component: () => import('@/views/product/index.vue'),
                 meta: { title: '产品', keepAlive: true, icon: "gold", roles: ['ADMIN'] }
             },
+            {
+                path: '/firmware',
+                name: 'firmware',
+                component: () => import('@/views/firmware/index.vue'),
+                meta: { title: '固件', keepAlive: true, icon: "file-zip", roles: ['ADMIN'] }
+            },
             // {
             //     path: '/device',
             //     name: 'Device',

@@ -1,5 +1,38 @@
 <template>
     <a-card class="product-list" :bordered="false" title="产品列表">
+        <template>
+            <a-modal
+                v-model="addModel"
+                title="新增产品"
+                centered
+                okText="添加"
+                cancelText="取消"
+                @ok="handleSubmit()"
+                @cancel="handleCancel()"
+            >
+                <a-form
+                    :form="addForm"
+                    @submit="handleSubmit"
+                    :label-col="{ span: 5 }"
+                    :wrapper-col="{ span: 12 }"
+                >
+                    <a-form-item label="产品名称">
+                        <a-input v-model="addForm.productName" type="text"> </a-input>
+                    </a-form-item>
+
+                    <a-form-item label="产品型号">
+                        <a-input v-model="addForm.type" type="text"> </a-input>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
+        </template>
+        <template #extra>
+            <a-space>
+                <a-button type="primary" icon="plus" @click="handleAdd()"
+                    >新增产品</a-button
+                >
+            </a-space>
+        </template>
         <a-table
             :columns="columns"
             rowKey="id"
@@ -20,11 +53,13 @@
 
 <script>
 import { COLUMNS } from "./js/indexColumns";
-import { GET } from "@/utils/methods";
+import { GET, POST } from "@/utils/methods";
 export default {
     name: "ProductList",
     data() {
         return {
+            addModel: false,
+            addForm: {},
             columns: COLUMNS,
             data: [],
             searchMacAddress: null,
@@ -44,6 +79,41 @@ export default {
         this.getProductList();
     },
     methods: {
+        handleSubmit(e) {
+            if (
+                this.addForm.productName == null ||
+                this.addForm.type == null ||
+                this.addForm.type == "" ||
+                this.addForm.productName == ""
+            ) {
+                this.$notification["warning"]({
+                    message: "警告",
+                    description: "请完整填写表单",
+                });
+            } else {
+                POST("/product", this.addForm).then((res) => {
+                    if (res.code == 200) {
+                        this.$notification["success"]({
+                            message: "添加成功",
+                        });
+                        this.getProductList();
+                        this.handleCancel();
+                    } else {
+                        this.$notification["error"]({
+                            message: "添加失败",
+                            description: res.msg,
+                        });
+                    }
+                });
+            }
+        },
+        handleCancel() {
+            (this.addModel = false), (this.addForm = {});
+        },
+        handleAdd() {
+            this.form = {};
+            this.addModel = true;
+        },
         toProductBatch(obj) {
             this.$router.push("/batch?productId=" + obj.id);
         },

@@ -21,7 +21,7 @@
                                     message: '请填写用户名',
                                 },
                             ],
-                            validateTrigger: 'change',
+                            validateTrigger: 'blur',
                         },
                     ]"
                 >
@@ -70,13 +70,6 @@
                 >
             </a-form-item>
         </a-form>
-
-        <two-step-captcha
-            v-if="requiredTwoStepCaptcha"
-            :visible="stepCaptchaVisible"
-            @success="stepCaptchaSuccess"
-            @cancel="stepCaptchaCancel"
-        ></two-step-captcha>
     </div>
 </template>
 
@@ -91,8 +84,6 @@ export default {
             loginBtn: false,
             loginType: 0,
             isLoginError: false,
-            requiredTwoStepCaptcha: false,
-            stepCaptchaVisible: false,
             form: this.$form.createForm(this),
             state: {
                 time: 60,
@@ -144,8 +135,7 @@ export default {
             });
         },
         loginSuccess(res) {
-            console.log(res);
-            this.$router.push({ path: "/device/quota" });
+            this.$router.push("/device/register");
             setTimeout(() => {
                 this.$notification.success({
                     message: "欢迎",

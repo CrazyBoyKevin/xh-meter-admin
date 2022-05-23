@@ -79,9 +79,20 @@
                 :pagination="pagination"
                 @change="handleTableChange"
             >
-                <!-- <span slot="action" slot-scope="text, record">
-                <a-button type="primary">查看批次</a-button>
-            </span> -->
+                <span slot="status" slot-scope="text, record">
+                    <a-tag v-if="record.status == 1" color="#87d068">最新版本</a-tag>
+                    <a-tag v-if="record.status == 2" color="#999999">历史版本</a-tag>
+                </span>
+                <span slot="action" slot-scope="text, record">
+                    <a-popconfirm
+                        title="该固件（最新版本）删除后，上一个版本固件将作为最新固件（此操作无法撤回）"
+                        ok-text="确定"
+                        cancel-text="取消"
+                        @confirm="handleDelete(record.id)"
+                    >
+                        <a-button type="danger" size="small" href="#">删除</a-button>
+                    </a-popconfirm>
+                </span>
             </a-table>
         </a-card>
     </div>
@@ -117,6 +128,21 @@ export default {
         this.getFirmwareList();
     },
     methods: {
+        handleDelete(id) {
+            POST("/device/firmware/delete/" + id).then((res) => {
+                if (res.code == 200) {
+                    this.getFirmwareList();
+                    this.$notification["success"]({
+                        message: "删除成功",
+                    });
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+            });
+        },
         handleRemove(file) {
             const index = this.fileList.indexOf(file);
             const newFileList = this.fileList.slice();
@@ -148,8 +174,33 @@ export default {
             this.addModel = true;
             this.form = {};
         },
-        submitAdd() {},
-        handleCancel() {},
+        submitAdd() {
+            const { form } = this;
+            const data = {
+                mfirmwareVersion: form.mFirmwareVersion,
+                sfirmwareVersion: form.sFirmwareVersion,
+                downloadLink: form.downloadLink,
+                deviceType: form.deviceType,
+                description: form.desc,
+            };
+            console.log(data);
+            POST("/device/firmware/add", data).then((res) => {
+                if (res.code == 200) {
+                    this.handleCancel();
+                    this.getFirmwareList();
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+            });
+        },
+        handleCancel() {
+            this.addModel = false;
+            this.form = {};
+            this.fileList = [];
+        },
         onSearchByDevice(deviceType) {
             this.deviceType = deviceType;
             this.getFirmwareList();
@@ -170,6 +221,9 @@ export default {
             GET("/device/firmware/list", params).then((res) => {
                 if (res.code == 200) {
                     this.loading = false;
+                    this.data = res.data;
+                    this.pagination.total = res.total;
+                    this.pagination.current = res.currentPage;
                 } else {
                     this.$notification["error"]({
                         message: "错误",

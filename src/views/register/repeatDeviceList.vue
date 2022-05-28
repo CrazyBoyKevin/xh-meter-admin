@@ -12,7 +12,7 @@
                     cancel-text="取消"
                     @confirm="confirmRegisterRepeat(record)"
                 >
-                    <a href="#">确认</a>
+                    <a href="#">同意覆盖</a>
                 </a-popconfirm>
 
                 <a-divider type="vertical" />
@@ -27,7 +27,7 @@
                     cancel-text="取消"
                     @confirm="giveUpRegisterRepeat(record)"
                 >
-                    <a href="#">丢弃</a>
+                    <a href="#">忽略</a>
                 </a-popconfirm>
             </span>
         </a-table>
@@ -76,7 +76,7 @@ export default {
             POST("/device/repeat/register/give/up", params).then((res) => {
                 if (res.code == 200) {
                     this.$notification["success"]({
-                        message: "丢弃成功",
+                        message: "忽略成功",
                     });
                     this.getRepeatDeviceList();
                 } else {
@@ -95,7 +95,7 @@ export default {
             POST("/device/repeat/register/confirm", params).then((res) => {
                 if (res.code == 200) {
                     this.$notification["success"]({
-                        message: "注册成功",
+                        message: "确认成功，请重新注册",
                     });
                     this.getRepeatDeviceList();
                 } else {

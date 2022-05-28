@@ -25,7 +25,7 @@
             <span slot="status" slot-scope="status">
                 <!-- ONLINE：设备在线,OFFLINE：设备离线,UNACTIVE：设备未激活,DISABLE：设备已禁用 -->
                 <a-tag v-if="status == 'ONLINE'" color="#87d068">在线</a-tag>
-                <a-tag v-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
+                <a-tag v-else-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
                 <a-tag v-else color="#f50">未知</a-tag>
             </span>
             <span slot="action" slot-scope="text, record">

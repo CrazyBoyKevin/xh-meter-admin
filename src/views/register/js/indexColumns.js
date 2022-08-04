@@ -1,10 +1,5 @@
 export const COLUMNS = [
     {
-        title: "ID",
-        dataIndex: "id",
-        width: "80px",
-    },
-    {
         title: "MAC地址",
         dataIndex: "macAddress",
         width: "140px",

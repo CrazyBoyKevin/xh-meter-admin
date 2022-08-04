@@ -1,13 +1,10 @@
 export const COLUMNS = [
     {
-        title: "ID",
-        dataIndex: "id",
-        width: "50px"
-    },
-    {
         title: "产品型号",
         dataIndex: "deviceType",
         width: "140px",
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.deviceType.length - b.deviceType.length,
     },
     {
         title: '主版本号',

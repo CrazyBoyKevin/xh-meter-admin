@@ -14,12 +14,11 @@
             >
                 <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
                     <a-form-item label="产品型号">
-                        <a-input
-                            style="width: 100%"
-                            v-model="form.deviceType"
-                            :min="0"
-                            placeholder="产品型号"
-                        />
+                        <a-select style="width: 100%" v-model="form.deviceType">
+                            <a-select-option v-for="t in typeList" :key="t" :value="t">
+                                {{ t }}
+                            </a-select-option>
+                        </a-select>
                     </a-form-item>
                     <a-form-item label="主版本号">
                         <a-input-number
@@ -113,6 +112,7 @@ export default {
             loading: false,
             data: [],
             deviceType: null,
+            typeList: null,
             pagination: {
                 pageSize: 10,
                 current: 1,
@@ -128,6 +128,18 @@ export default {
         this.getFirmwareList();
     },
     methods: {
+        getTypeList() {
+            GET("/product/list/exist/type").then((res) => {
+                if (res.code == 200) {
+                    this.typeList = res.data;
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+            });
+        },
         handleDelete(id) {
             POST("/device/firmware/delete/" + id).then((res) => {
                 if (res.code == 200) {
@@ -173,6 +185,7 @@ export default {
         handleAdd() {
             this.addModel = true;
             this.form = {};
+            this.getTypeList();
         },
         submitAdd() {
             const { form } = this;

@@ -21,6 +21,14 @@
                             placeholder="批次配额"
                         />
                     </a-form-item>
+                    <a-form-item label="批次号">
+                        <a-input-number
+                            style="width: 100%"
+                            v-model="form.batchNo"
+                            :min="0"
+                            placeholder="请填写批次号"
+                        />
+                    </a-form-item>
                     <a-form-item label="产品">
                         <a-select
                             v-model="form.productId"
@@ -154,8 +162,25 @@
                         @confirm="stopProduceBatchConfirm(record)"
                         @cancel="stopProduceBatchCancel()"
                     >
-                        <a-button type="primary" v-if="record.status == 1" href="#"
+                        <a-button type="danger" v-if="record.status == 1" href="#"
                             >停产</a-button
+                        >
+                    </a-popconfirm>
+                    <a-popconfirm
+                        :title="
+                            `确定开始生产产品[` +
+                            record.product.productName +
+                            `]批次号为[` +
+                            record.batchNo +
+                            `]？`
+                        "
+                        ok-text="确定"
+                        cancel-text="取消"
+                        @confirm="startProduceBatchConfirm(record)"
+                        @cancel="startProduceBatchCancel()"
+                    >
+                        <a-button type="primary" v-if="record.status == 2" href="#"
+                            >开始生产</a-button
                         >
                     </a-popconfirm>
                 </span>
@@ -338,6 +363,31 @@ export default {
             this.$notification["info"]({
                 message: "提示",
                 description: "取消停产操作",
+            });
+        },
+        startProduceBatchConfirm(record) {
+            const params = {
+                batchNo: record.batchNo,
+                productId: record.product.id,
+            };
+            POST("/product/batch/start", params).then((res) => {
+                if (res.code == 200) {
+                    this.$notification["success"]({
+                        message: "开始生产成功",
+                    });
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+                this.getProductBatchList();
+            });
+        },
+        startProduceBatchCancel() {
+            this.$notification["info"]({
+                message: "提示",
+                description: "取消生产操作",
             });
         },
     },

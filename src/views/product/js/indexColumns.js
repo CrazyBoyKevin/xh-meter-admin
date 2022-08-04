@@ -1,14 +1,5 @@
 export const COLUMNS = [
     {
-        title: "ID",
-        dataIndex: "id",
-        width: "80px"
-    },
-    {
-        title: "产品名称",
-        dataIndex: "productName",
-    },
-    {
         title: "产品型号",
         dataIndex: "type",
     },

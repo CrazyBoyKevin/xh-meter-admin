@@ -71,6 +71,7 @@ export default {
         handleTableChange(pagination) {
             const pager = { ...this.pagination };
             pager.current = pagination.current;
+            pager.pageSize = pagination.pageSize;
             this.pagination = pager;
             this.getDeviceListByBatchId();
         },
@@ -94,12 +95,6 @@ export default {
         },
         reloadList() {
             this.searchMacAddress = null;
-            this.getDeviceListByBatchId();
-        },
-        handleTableChange(pagination) {
-            const pager = { ...this.pagination };
-            pager.current = pagination.current;
-            this.pagination = pager;
             this.getDeviceListByBatchId();
         },
         getDeviceListByBatchId() {

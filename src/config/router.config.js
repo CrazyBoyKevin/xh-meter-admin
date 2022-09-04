@@ -31,6 +31,12 @@ export const asyncRouterMap = [
                 component: () => import('@/views/firmware/index.vue'),
                 meta: { title: '固件', keepAlive: true, icon: "file-zip", roles: ['ADMIN'] }
             },
+            {
+                path: '/custom/service',
+                name: 'customService',
+                component: () => import('@/views/customService/deviceSearch.vue'),
+                meta: { title: '售后查询', keepAlive: true, icon: "file-zip", roles: ['ADMIN'] }
+            },
             // {
             //     path: '/device',
             //     name: 'Device',

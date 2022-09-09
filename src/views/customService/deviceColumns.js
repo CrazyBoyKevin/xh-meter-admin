@@ -34,6 +34,11 @@ export const COLUMNS = [
         width: "300px"
     },
     {
+        title: "IP地址",
+        dataIndex: "ipAddress",
+        width: "130px"
+    },
+    {
         title: "绑定时间",
         dataIndex: "boundTime",
         width: "180px"

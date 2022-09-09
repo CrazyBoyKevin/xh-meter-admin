@@ -98,9 +98,6 @@
                 <a-tag v-else-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
                 <a-tag v-else color="#f50">未知</a-tag>
             </template>
-            <!-- <span slot="action" slot-scope="text, record"> -->
-            <!-- <a-button danger @click="returnFactory(record)">返厂</a-button> -->
-            <!-- </span> -->
         </a-table>
     </a-card>
 </template>

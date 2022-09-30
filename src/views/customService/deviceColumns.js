@@ -36,7 +36,7 @@ export const COLUMNS = [
     {
         title: "IP地址",
         dataIndex: "ipAddress",
-        width: "130px"
+        width: "140px"
     },
     {
         title: "绑定时间",
@@ -76,11 +76,11 @@ export const COLUMNS = [
         dataIndex: "updateTime",
         width: "180px"
     },
-    // {
-    //     title: '操作',
-    //     key: 'action',
-    //     align: "right",
-    //     scopedSlots: { customRender: 'action' },
-    //     fixed: 'right'
-    // },
+    {
+        title: '操作',
+        key: 'action',
+        align: "right",
+        scopedSlots: { customRender: 'action' },
+        fixed: 'right'
+    },
 ]

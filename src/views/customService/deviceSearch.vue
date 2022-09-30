@@ -1,5 +1,33 @@
 <template>
     <a-card class="custome-service-search" :bordered="false" title="">
+        <template>
+            <a-modal
+                v-model="setModel"
+                :title="`电表[` + setForm.id + `] 设置`"
+                centered
+                okText="提交"
+                cancelText="取消"
+                :maskClosable="false"
+                @ok="submitSet()"
+                @cancel="handleCancel()"
+            >
+                <a-form
+                    :form="setForm"
+                    :label-col="{ span: 5 }"
+                    :wrapper-col="{ span: 12 }"
+                >
+                    <a-form-item label="电能系数">
+                        <a-input-number
+                            style="width: 100%"
+                            v-model="setForm.eec"
+                            :min="0"
+                            :step="0.01"
+                            placeholder="电能系数默认1.00"
+                        />
+                    </a-form-item>
+                </a-form>
+            </a-modal>
+        </template>
         <div slot="extra" class="card-header-right">
             <a-space>
                 <div class="count-line">
@@ -98,6 +126,14 @@
                 <a-tag v-else-if="status == 'OFFLINE'" color="#999999">离线</a-tag>
                 <a-tag v-else color="#f50">未知</a-tag>
             </template>
+            <span slot="action" slot-scope="text, record">
+                <a-button
+                    style="margin-right: 10px"
+                    type="primary"
+                    @click="setEec(record)"
+                    >设置</a-button
+                >
+            </span>
         </a-table>
     </a-card>
 </template>
@@ -117,7 +153,9 @@ export default {
     data() {
         return {
             columns: COLUMNS,
+            setModel: false,
             data: [],
+            setForm: {},
             searchDto: {
                 nickname: null,
                 mac: null,
@@ -151,8 +189,36 @@ export default {
         this.getDeviceStatisticalData();
     },
     methods: {
+        submitSet() {
+            POST("/custom/device/service/set/eec", this.setForm).then((res) => {
+                if (res.code == 200) {
+                    this.$notification["success"]({
+                        message: "修改成功",
+                    });
+                    this.handleCancel();
+                } else {
+                    this.$notification["error"]({
+                        message: "错误",
+                        description: res.msg,
+                    });
+                }
+            });
+        },
+        setEec(val) {
+            this.setForm.id = val.id;
+            this.setForm.eec =
+                val.electricalEnergyCoefficient != null
+                    ? val.electricalEnergyCoefficient
+                    : 1.0;
+            this.setModel = true;
+        },
+        handleCancel() {
+            this.setForm = {};
+            this.setModel = false;
+            this.search();
+        },
         getDeviceStatisticalData() {
-            GET("/device/custom/service/statistical/data").then((res) => {
+            GET("/custom/device/service/statistical/data").then((res) => {
                 if (res.code == 200) {
                     this.onlineCount = res.data.onlineCount;
                     this.offlineCount = res.data.offlineCount;
@@ -173,24 +239,6 @@ export default {
             this.searchDto.pageSize = this.pagination.pageSize;
             this.search();
         },
-        // returnFactory(record) {
-        //     const params = {
-        //         id: record.id,
-        //     };
-        //     POST("/device/factory/return", params).then((res) => {
-        //         if (res.code == 200) {
-        //             this.getDeviceListByBatchId();
-        //             this.$notification["success"]({
-        //                 message: "返厂成功",
-        //             });
-        //         } else {
-        //             this.$notification["error"]({
-        //                 message: "错误",
-        //                 description: res.msg,
-        //             });
-        //         }
-        //     });
-        // },
         reloadList() {
             this.searchDto = {
                 nickname: null,
@@ -205,7 +253,7 @@ export default {
             this.loading = true;
             this.searchDto.current = this.pagination.current;
             this.searchDto.pageSize = this.pagination.pageSize;
-            POST("/device/custom/service/search", this.searchDto).then((res) => {
+            POST("/custom/device/service/search", this.searchDto).then((res) => {
                 if (res.code == 200) {
                     this.data = res.data;
                     this.pagination.total = res.total;

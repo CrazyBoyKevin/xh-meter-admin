@@ -71,11 +71,11 @@ export const COLUMNS = [
         dataIndex: "lastPushTime",
         width: "180px"
     },
-    {
-        title: "更新时间",
-        dataIndex: "updateTime",
-        width: "180px"
-    },
+    // {
+    //     title: "更新时间",
+    //     dataIndex: "updateTime",
+    //     width: "180px"
+    // },
     {
         title: '操作',
         key: 'action',

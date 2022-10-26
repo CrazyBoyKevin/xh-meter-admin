@@ -178,7 +178,6 @@ export default {
             vertical-align: middle;
             cursor: pointer;
             transition: color 0.3s;
-
             &:hover {
                 color: #1890ff;
             }

@@ -22,10 +22,9 @@
                         />
                     </a-form-item>
                     <a-form-item label="批次号">
-                        <a-input-number
+                        <a-input
                             style="width: 100%"
                             v-model="form.batchNo"
-                            :min="0"
                             placeholder="请填写批次号"
                         />
                     </a-form-item>

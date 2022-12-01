@@ -45,7 +45,7 @@
                 </div>
                 <a-button @click="reloadList()" icon="reload"></a-button>
                 <a-select
-                    style="width: 150px"
+                    style="width: 100px"
                     placeholder="状态"
                     @change="search()"
                     v-model="searchDto.status"
@@ -56,6 +56,20 @@
                         :value="s.status"
                     >
                         {{ s.desc }}
+                    </a-select-option>
+                </a-select>
+                <a-select
+                    style="width: 150px"
+                    placeholder="型号"
+                    @change="search()"
+                    v-model="searchDto.type"
+                >
+                    <a-select-option
+                        v-for="t in typeList"
+                        :key="t"
+                        :value="t"
+                    >
+                        {{ t }}
                     </a-select-option>
                 </a-select>
                 <a-input-search
@@ -170,6 +184,7 @@ export default {
                 { status: "OFFLINE", desc: "离线" },
                 { status: "ONLINE", desc: "在线" },
             ],
+            typeList: [],
             loading: false,
             pagination: {
                 pageSize: 20,
@@ -186,9 +201,17 @@ export default {
     },
     mounted() {
         this.search();
+        this.getTypeList();
         this.getDeviceStatisticalData();
     },
     methods: {
+        getTypeList() {
+            GET("/custom/device/service/type/list").then((res) => {
+                if (res.code == 200) {
+                    this.typeList = res.data;
+                }
+            });
+        },
         submitSet() {
             POST("/custom/device/service/set/eec", this.setForm).then((res) => {
                 if (res.code == 200) {

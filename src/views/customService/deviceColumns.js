@@ -44,6 +44,11 @@ export const COLUMNS = [
         width: "180px"
     },
     {
+        title: "过期时间",
+        dataIndex: "expireDate",
+        width: "180px"
+    },
+    {
         title: "型号",
         dataIndex: "type",
         width: "100px"
